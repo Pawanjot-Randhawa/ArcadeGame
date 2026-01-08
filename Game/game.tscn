@@ -1,0 +1,91 @@
+[gd_scene load_steps=13 format=3 uid="uid://cqbeaq75y0apy"]
+
+[ext_resource type="Script" uid="uid://d4fo4ccirytg3" path="res://Game/game.gd" id="1_1r4le"]
+[ext_resource type="Shader" uid="uid://cfjuq8snpmlha" path="res://Shaders/lava.gdshader" id="1_bk3v5"]
+[ext_resource type="PackedScene" uid="uid://c3adm4bmd5hrp" path="res://Player/player.tscn" id="4_jcm6v"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_jcm6v"]
+sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+
+[sub_resource type="Sky" id="Sky_fwxkx"]
+sky_material = SubResource("ProceduralSkyMaterial_jcm6v")
+
+[sub_resource type="Environment" id="Environment_qmv3x"]
+background_mode = 2
+sky = SubResource("Sky_fwxkx")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_1r4le"]
+size = Vector2(100, 100)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7raqb"]
+render_priority = 0
+shader = ExtResource("1_bk3v5")
+shader_parameter/dark_lava_color = Color(0.9137255, 0.09411765, 0.015686275, 1)
+shader_parameter/light_lava_color = Color(0.9705942, 0.9705954, 1.540184e-06, 1)
+shader_parameter/speed = 0.400000019
+shader_parameter/scale = 22.00000104174012
+shader_parameter/sharpness = 2.50000007125
+shader_parameter/emission_intensity = 2.000000095
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_7raqb"]
+data = PackedVector3Array(25, 0, 25, -25, 0, 25, 25, 0, -25, -25, 0, 25, -25, 0, -25, 25, 0, -25)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7raqb"]
+albedo_color = Color(0.58933866, 0.3209091, 0.12900239, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_fwxkx"]
+size = Vector3(10, 0.1, 15)
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_jcm6v"]
+data = PackedVector3Array(-5, 0.049999997, 7.5, 5, 0.049999997, 7.5, -5, -0.049999997, 7.5, 5, 0.049999997, 7.5, 5, -0.049999997, 7.5, -5, -0.049999997, 7.5, 5, 0.049999997, -7.5, -5, 0.049999997, -7.5, 5, -0.049999997, -7.5, -5, 0.049999997, -7.5, -5, -0.049999997, -7.5, 5, -0.049999997, -7.5, 5, 0.049999997, 7.5, 5, 0.049999997, -7.5, 5, -0.049999997, 7.5, 5, 0.049999997, -7.5, 5, -0.049999997, -7.5, 5, -0.049999997, 7.5, -5, 0.049999997, -7.5, -5, 0.049999997, 7.5, -5, -0.049999997, -7.5, -5, 0.049999997, 7.5, -5, -0.049999997, 7.5, -5, -0.049999997, -7.5, 5, 0.049999997, 7.5, -5, 0.049999997, 7.5, 5, 0.049999997, -7.5, -5, 0.049999997, 7.5, -5, 0.049999997, -7.5, 5, 0.049999997, -7.5, -5, -0.049999997, 7.5, 5, -0.049999997, 7.5, -5, -0.049999997, -7.5, 5, -0.049999997, 7.5, 5, -0.049999997, -7.5, -5, -0.049999997, -7.5)
+
+[node name="Game" type="Node3D"]
+script = ExtResource("1_1r4le")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_qmv3x")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+shadow_enabled = true
+
+[node name="Lava" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -10, 0)
+mesh = SubResource("PlaneMesh_1r4le")
+surface_material_override/0 = SubResource("ShaderMaterial_7raqb")
+
+[node name="LavaKillZone" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LavaKillZone"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -10, 0)
+shape = SubResource("ConcavePolygonShape3D_7raqb")
+
+[node name="Ground" type="MeshInstance3D" parent="."]
+material_override = SubResource("StandardMaterial3D_7raqb")
+mesh = SubResource("BoxMesh_fwxkx")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(-4.222196e-08, -0.25881904, 0.9659258, -1.131334e-08, 0.9659258, 0.25881904, -1, 0, -4.371139e-08, 10, 3.7643976, 0.99531555)
+
+[node name="Player" parent="." instance=ExtResource("4_jcm6v")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.016292, 0)
+JUMP_VELOCITY = 12.0
+gravity_down = 5
+gravity_up = 5
+
+[node name="Ground2" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground2"]
+shape = SubResource("ConcavePolygonShape3D_jcm6v")
+
+[node name="JumpSpawn" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.43248177, -16.158762)
+
+[node name="JumpSpawner" type="Timer" parent="."]
+autostart = true
+
+[connection signal="body_entered" from="LavaKillZone" to="." method="_on_lava_kill_zone_body_entered"]
+[connection signal="timeout" from="JumpSpawner" to="." method="_on_jump_spawner_timeout"]

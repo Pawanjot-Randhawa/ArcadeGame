@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=3 uid="uid://cfirhu1gauwe5"]
+
+[ext_resource type="Script" uid="uid://dctoct6f3xfw" path="res://Obstacles/jump_obstacle.gd" id="1_si82x"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7jmf8"]
+albedo_color = Color(1, 0, 1, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_si82x"]
+size = Vector3(10, 0.5, 1)
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_kw5h1"]
+data = PackedVector3Array(-5, 0.25, 0.5, 5, 0.25, 0.5, -5, -0.25, 0.5, 5, 0.25, 0.5, 5, -0.25, 0.5, -5, -0.25, 0.5, 5, 0.25, -0.5, -5, 0.25, -0.5, 5, -0.25, -0.5, -5, 0.25, -0.5, -5, -0.25, -0.5, 5, -0.25, -0.5, 5, 0.25, 0.5, 5, 0.25, -0.5, 5, -0.25, 0.5, 5, 0.25, -0.5, 5, -0.25, -0.5, 5, -0.25, 0.5, -5, 0.25, -0.5, -5, 0.25, 0.5, -5, -0.25, -0.5, -5, 0.25, 0.5, -5, -0.25, 0.5, -5, -0.25, -0.5, 5, 0.25, 0.5, -5, 0.25, 0.5, 5, 0.25, -0.5, -5, 0.25, 0.5, -5, 0.25, -0.5, 5, 0.25, -0.5, -5, -0.25, 0.5, 5, -0.25, 0.5, -5, -0.25, -0.5, 5, -0.25, 0.5, 5, -0.25, -0.5, -5, -0.25, -0.5)
+
+[node name="JumpObstacle" type="Area3D"]
+script = ExtResource("1_si82x")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+material_override = SubResource("StandardMaterial3D_7jmf8")
+mesh = SubResource("BoxMesh_si82x")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("ConcavePolygonShape3D_kw5h1")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
