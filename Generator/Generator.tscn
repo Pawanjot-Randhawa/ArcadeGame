@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://bo38kerdgaujp"]
+
+[ext_resource type="Script" uid="uid://bkl3nthchy5lh" path="res://Generator/generator.gd" id="1_j581f"]
+[ext_resource type="Script" uid="uid://cuk68uwpd7l0w" path="res://Components/Spawner.gd" id="2_jm45u"]
+
+[node name="Generator" type="Node3D"]
+script = ExtResource("1_j581f")
+
+[node name="Spawn_Timer" type="Timer" parent="."]
+autostart = true
+
+[node name="Spawner" type="Node3D" parent="." node_paths=PackedStringArray("spawn_timer")]
+script = ExtResource("2_jm45u")
+spawn_timer = NodePath("../Spawn_Timer")
