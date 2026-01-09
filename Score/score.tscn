@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://b3vig1qb8dhgh"]
+
+[ext_resource type="Script" uid="uid://dgfnk37mv6an6" path="res://Score/score.gd" id="1_vxeqm"]
+
+[node name="Score" type="Node3D"]
+script = ExtResource("1_vxeqm")
+
+[node name="ScoreTimer" type="Timer" parent="."]
+autostart = true
+
+[connection signal="timeout" from="ScoreTimer" to="." method="_on_score_timer_timeout"]
