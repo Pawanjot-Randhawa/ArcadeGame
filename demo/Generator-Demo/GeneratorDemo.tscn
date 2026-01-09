@@ -1,8 +1,10 @@
-[gd_scene load_steps=13 format=3 uid="uid://b7pm0i4t4fnnd"]
+[gd_scene load_steps=15 format=3 uid="uid://b7pm0i4t4fnnd"]
 
 [ext_resource type="Shader" uid="uid://cfjuq8snpmlha" path="res://Shaders/lava.gdshader" id="2_6lfho"]
 [ext_resource type="PackedScene" uid="uid://c3adm4bmd5hrp" path="res://Player/player.tscn" id="3_rfdks"]
+[ext_resource type="PackedScene" uid="uid://cfirhu1gauwe5" path="res://Obstacles/jump_obstacle.tscn" id="4_6lfho"]
 [ext_resource type="PackedScene" uid="uid://bo38kerdgaujp" path="res://Generator/Generator.tscn" id="4_n2nrr"]
+[ext_resource type="PackedScene" uid="uid://24qwustr7ftx" path="res://Obstacles/crouch_obstacle.tscn" id="5_rfdks"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_jcm6v"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -94,7 +96,5 @@ gravity_up = 5
 
 [node name="Generator" parent="Gameplay" instance=ExtResource("4_n2nrr")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2244829, -12.640393)
+projectiles = Array[PackedScene]([ExtResource("4_6lfho"), ExtResource("5_rfdks")])
 min_spawn_interval = 0.5
-difficulity_interval_rate = 1
-
-[connection signal="body_entered" from="Interactables/LavaKillZone" to="." method="_on_lava_kill_zone_body_entered"]

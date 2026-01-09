@@ -53,13 +53,19 @@ func set_crouch():
 	crouching = true
 	cylinder_mesh.visible = false
 	ball_mesh.visible = true
-	cylinder.set_deferred("disabled", false)
-	ball.set_deferred("disabled", true)
+	
+	cylinder.disabled = false
+	ball.disabled = true
+	#cylinder.set_deferred("disabled", false)
+	#ball.set_deferred("disabled", true)
 
 
 func _on_crouch_timer_timeout() -> void:
 	cylinder_mesh.visible = true
 	ball_mesh.visible = false
-	ball.set_deferred("disabled", false)
-	cylinder.set_deferred("disabled", true)
+	
+	cylinder.disabled = false
+	ball.disabled = true
+	#ball.set_deferred("disabled", false)
+	#cylinder.set_deferred("disabled", true)
 	crouching = false
