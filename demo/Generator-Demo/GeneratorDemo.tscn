@@ -95,6 +95,6 @@ gravity_down = 5
 gravity_up = 5
 
 [node name="Generator" parent="Gameplay" instance=ExtResource("4_n2nrr")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2244829, -12.640393)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.43248177, -16.158762)
 projectiles = Array[PackedScene]([ExtResource("4_6lfho"), ExtResource("5_rfdks")])
 min_spawn_interval = 0.5
