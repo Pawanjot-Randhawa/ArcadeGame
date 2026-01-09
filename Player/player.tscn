@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://c3adm4bmd5hrp"]
+[gd_scene load_steps=8 format=3 uid="uid://c3adm4bmd5hrp"]
 
 [ext_resource type="Script" uid="uid://b7s4rvqrivqit" path="res://Player/player.gd" id="1_l8h54"]
 
@@ -9,12 +9,36 @@ albedo_color = Color(0, 1, 1, 1)
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_4ntmi"]
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4ntmi"]
+albedo_color = Color(1, 0, 1, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_btcbx"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_gwnis"]
+
 [node name="Player" type="CharacterBody3D"]
 script = ExtResource("1_l8h54")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+[node name="cylinderMesh" type="MeshInstance3D" parent="."]
 mesh = SubResource("CapsuleMesh_l8h54")
 surface_material_override/0 = SubResource("StandardMaterial3D_l8h54")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="cylinder" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_4ntmi")
+
+[node name="Crouch Timer" type="Timer" parent="."]
+wait_time = 0.4
+one_shot = true
+
+[node name="ballMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.50046396, 0)
+visible = false
+material_override = SubResource("StandardMaterial3D_4ntmi")
+mesh = SubResource("SphereMesh_btcbx")
+
+[node name="ball" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.50046396, 0)
+visible = false
+shape = SubResource("SphereShape3D_gwnis")
+
+[connection signal="timeout" from="Crouch Timer" to="." method="_on_crouch_timer_timeout"]

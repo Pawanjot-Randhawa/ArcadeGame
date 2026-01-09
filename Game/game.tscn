@@ -1,7 +1,9 @@
-[gd_scene load_steps=13 format=3 uid="uid://cqbeaq75y0apy"]
+[gd_scene load_steps=15 format=3 uid="uid://cqbeaq75y0apy"]
 
 [ext_resource type="Script" uid="uid://d4fo4ccirytg3" path="res://Game/game.gd" id="1_1r4le"]
 [ext_resource type="Shader" uid="uid://cfjuq8snpmlha" path="res://Shaders/lava.gdshader" id="1_bk3v5"]
+[ext_resource type="PackedScene" uid="uid://cfirhu1gauwe5" path="res://Obstacles/jump_obstacle.tscn" id="2_fwxkx"]
+[ext_resource type="PackedScene" uid="uid://24qwustr7ftx" path="res://Obstacles/crouch_obstacle.tscn" id="3_qmv3x"]
 [ext_resource type="PackedScene" uid="uid://c3adm4bmd5hrp" path="res://Player/player.tscn" id="4_jcm6v"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_jcm6v"]
@@ -44,6 +46,7 @@ data = PackedVector3Array(-5, 0.049999997, 7.5, 5, 0.049999997, 7.5, -5, -0.0499
 
 [node name="Game" type="Node3D"]
 script = ExtResource("1_1r4le")
+obstacles = Array[PackedScene]([ExtResource("2_fwxkx"), ExtResource("3_qmv3x")])
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_qmv3x")
@@ -81,11 +84,12 @@ gravity_up = 5
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Ground2"]
 shape = SubResource("ConcavePolygonShape3D_jcm6v")
 
-[node name="JumpSpawn" type="Marker3D" parent="."]
+[node name="SpawnPoint" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.43248177, -16.158762)
 
-[node name="JumpSpawner" type="Timer" parent="."]
+[node name="Spawner" type="Timer" parent="."]
+wait_time = 0.5
 autostart = true
 
 [connection signal="body_entered" from="LavaKillZone" to="." method="_on_lava_kill_zone_body_entered"]
-[connection signal="timeout" from="JumpSpawner" to="." method="_on_jump_spawner_timeout"]
+[connection signal="timeout" from="Spawner" to="." method="_on_spawner_timeout"]

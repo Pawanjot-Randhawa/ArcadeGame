@@ -1,9 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://cfirhu1gauwe5"]
+[gd_scene load_steps=5 format=3 uid="uid://24qwustr7ftx"]
 
-[ext_resource type="Script" uid="uid://dctoct6f3xfw" path="res://Obstacles/jump_obstacle.gd" id="1_si82x"]
+[ext_resource type="Script" uid="uid://de2glxus7j0qi" path="res://Obstacles/crouch_obstacle.gd" id="1_3hmhk"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7jmf8"]
-albedo_color = Color(1, 0, 1, 1)
+albedo_color = Color(0, 0.7531155, 0.1783801, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_si82x"]
 size = Vector3(10, 0.5, 1)
@@ -11,8 +11,9 @@ size = Vector3(10, 0.5, 1)
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_kw5h1"]
 data = PackedVector3Array(-5, 0.25, 0.5, 5, 0.25, 0.5, -5, -0.25, 0.5, 5, 0.25, 0.5, 5, -0.25, 0.5, -5, -0.25, 0.5, 5, 0.25, -0.5, -5, 0.25, -0.5, 5, -0.25, -0.5, -5, 0.25, -0.5, -5, -0.25, -0.5, 5, -0.25, -0.5, 5, 0.25, 0.5, 5, 0.25, -0.5, 5, -0.25, 0.5, 5, 0.25, -0.5, 5, -0.25, -0.5, 5, -0.25, 0.5, -5, 0.25, -0.5, -5, 0.25, 0.5, -5, -0.25, -0.5, -5, 0.25, 0.5, -5, -0.25, 0.5, -5, -0.25, -0.5, 5, 0.25, 0.5, -5, 0.25, 0.5, 5, 0.25, -0.5, -5, 0.25, 0.5, -5, 0.25, -0.5, 5, 0.25, -0.5, -5, -0.25, 0.5, 5, -0.25, 0.5, -5, -0.25, -0.5, 5, -0.25, 0.5, 5, -0.25, -0.5, -5, -0.25, -0.5)
 
-[node name="JumpObstacle" type="StaticBody3D"]
-script = ExtResource("1_si82x")
+[node name="CrouchObstacle" type="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3090558, 0)
+script = ExtResource("1_3hmhk")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 material_override = SubResource("StandardMaterial3D_7jmf8")

@@ -1,16 +1,12 @@
 extends Node3D
 
 
-@onready var jump_spawn: Marker3D = $JumpSpawn
+@onready var spawn_point: Marker3D = $SpawnPoint
+
 const jumper : PackedScene = preload("uid://cfirhu1gauwe5")
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
+const croucher : PackedScene = preload("uid://24qwustr7ftx")
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
+@export var obstacles : Array[PackedScene] = []
 
 
 func _on_lava_kill_zone_body_entered(body: Node3D) -> void:
@@ -18,7 +14,11 @@ func _on_lava_kill_zone_body_entered(body: Node3D) -> void:
 		pass
 
 
-func _on_jump_spawner_timeout() -> void:
-	var temp = jumper.instantiate()
-	temp.position
-	jump_spawn.add_child(temp)
+func _on_spawner_timeout() -> void:
+	var holder = obstacles[randi() % obstacles.size()]
+	var obstacle = holder.instantiate()
+	spawn_point.add_child(obstacle)
+
+func death(body : Node3D):
+	if body is Player:
+		print("hit")
