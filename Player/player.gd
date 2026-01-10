@@ -18,8 +18,6 @@ class_name Player
 var crouching : bool = false
 
 func _physics_process(delta: float) -> void:
-	if crouching:
-		return
 	# Add the gravity.
 	if not is_on_floor():
 		if velocity.y > 0:
@@ -35,7 +33,8 @@ func _physics_process(delta: float) -> void:
 
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
-	var input_dir := Input.get_vector("move_left", "move_right", "move_forward", "move_back")
+	
+	var input_dir := Input.get_vector("move_forward", "move_back", "move_right", "move_left")
 	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	if direction:
 		velocity.x = direction.x * SPEED
@@ -45,7 +44,7 @@ func _physics_process(delta: float) -> void:
 		velocity.z = move_toward(velocity.z, 0, SPEED)
 	if Input.is_action_just_pressed("crouch"):
 		set_crouch()
-		
+	
 	move_and_slide()
 
 func set_crouch():
@@ -54,8 +53,8 @@ func set_crouch():
 	cylinder_mesh.visible = false
 	ball_mesh.visible = true
 	
-	cylinder.disabled = false
-	ball.disabled = true
+	cylinder.disabled = true
+	ball.disabled = false
 	#cylinder.set_deferred("disabled", false)
 	#ball.set_deferred("disabled", true)
 

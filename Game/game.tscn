@@ -1,26 +1,75 @@
-[gd_scene load_steps=15 format=3 uid="uid://cqbeaq75y0apy"]
+[gd_scene load_steps=26 format=3 uid="uid://cqbeaq75y0apy"]
 
 [ext_resource type="Script" uid="uid://d4fo4ccirytg3" path="res://Game/game.gd" id="1_1r4le"]
 [ext_resource type="Shader" uid="uid://cfjuq8snpmlha" path="res://Shaders/lava.gdshader" id="1_bk3v5"]
 [ext_resource type="PackedScene" uid="uid://cfirhu1gauwe5" path="res://Obstacles/jump_obstacle.tscn" id="2_fwxkx"]
 [ext_resource type="PackedScene" uid="uid://24qwustr7ftx" path="res://Obstacles/crouch_obstacle.tscn" id="3_qmv3x"]
 [ext_resource type="PackedScene" uid="uid://c3adm4bmd5hrp" path="res://Player/player.tscn" id="4_jcm6v"]
+[ext_resource type="Shader" uid="uid://d2oudxk1u03pp" path="res://worldShader.gdshader" id="4_qmv3x"]
+[ext_resource type="Texture2D" uid="uid://bm16o086a0rko" path="res://assets/Sun.png" id="5_oomkl"]
+[ext_resource type="PackedScene" uid="uid://db7rthold5q1t" path="res://assets/Rock.glb" id="8_buohc"]
+[ext_resource type="FontFile" uid="uid://b3q2rqvn5og7j" path="res://assets/Gorditas-Bold.ttf" id="9_kul4i"]
+[ext_resource type="AudioStream" uid="uid://c60nruetufn0y" path="res://assets/drum-combo-dnb-style-drumbreaks-01-172bpm-20bars-461345.mp3" id="10_7gi1t"]
 
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_jcm6v"]
-sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
-ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+[sub_resource type="Curve" id="Curve_buohc"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.097799525, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.8242477), 0.0, 0.0, 0, 0]
+point_count = 3
 
-[sub_resource type="Sky" id="Sky_fwxkx"]
-sky_material = SubResource("ProceduralSkyMaterial_jcm6v")
+[sub_resource type="CurveTexture" id="CurveTexture_kul4i"]
+curve = SubResource("Curve_buohc")
 
-[sub_resource type="Environment" id="Environment_qmv3x"]
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_7gi1t"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_fsxsm"]
+noise = SubResource("FastNoiseLite_7gi1t")
+seamless = true
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_glinl"]
+noise = SubResource("FastNoiseLite_7gi1t")
+seamless = true
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_72g0p"]
+noise = SubResource("FastNoiseLite_7gi1t")
+seamless = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_oomkl"]
+shader = ExtResource("4_qmv3x")
+shader_parameter/cloud_shape_sampler = SubResource("NoiseTexture2D_glinl")
+shader_parameter/cloud_noise_sampler = SubResource("NoiseTexture2D_fsxsm")
+shader_parameter/cloud_curves = SubResource("CurveTexture_kul4i")
+shader_parameter/clouds_samples = 32
+shader_parameter/shadow_sample = 4
+shader_parameter/clouds_density = 0.40000000596048
+shader_parameter/clouds_scale = 1.0
+shader_parameter/clouds_smoothness = 0.0499999988824
+shader_parameter/clouds_light_color = Color(0.22745098, 0.4509804, 1, 1)
+shader_parameter/clouds_shadow_intensity = 8.0000001192096
+shader_parameter/high_clouds_sampler = SubResource("NoiseTexture2D_72g0p")
+shader_parameter/high_clouds_density = 0.0
+shader_parameter/top_color = Color(0.02745098, 0.101960786, 0.2509804, 1)
+shader_parameter/bottom_color = Color(0.02745098, 0.101960786, 0.2509804, 1)
+shader_parameter/sun_scatter = Color(0.1254902, 0.08627451, 0.37254903, 1)
+shader_parameter/astro_tint = Color(1, 1, 1, 1)
+shader_parameter/astro_sampler = ExtResource("5_oomkl")
+shader_parameter/astro_scale = 10.0
+shader_parameter/astro_intensity = 1.0
+shader_parameter/stars_intensity = 0.90000001341108
+shader_parameter/shooting_stars_intensity = 0.0
+shader_parameter/shooting_star_tint = Color(0, 0, 0, 1)
+
+[sub_resource type="Sky" id="Sky_buohc"]
+sky_material = SubResource("ShaderMaterial_oomkl")
+
+[sub_resource type="Environment" id="Environment_kul4i"]
 background_mode = 2
-sky = SubResource("Sky_fwxkx")
-tonemap_mode = 2
+sky = SubResource("Sky_buohc")
 glow_enabled = true
+glow_intensity = 0.17
+glow_strength = 1.15
+glow_blend_mode = 4
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_1r4le"]
-size = Vector2(100, 100)
+size = Vector2(600, 600)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_7raqb"]
 render_priority = 0
@@ -32,8 +81,8 @@ shader_parameter/scale = 22.00000104174012
 shader_parameter/sharpness = 2.50000007125
 shader_parameter/emission_intensity = 2.000000095
 
-[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_7raqb"]
-data = PackedVector3Array(25, 0, 25, -25, 0, 25, 25, 0, -25, -25, 0, 25, -25, 0, -25, 25, 0, -25)
+[sub_resource type="BoxShape3D" id="BoxShape3D_kul4i"]
+size = Vector3(50, 1, 50)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7raqb"]
 albedo_color = Color(0.58933866, 0.3209091, 0.12900239, 1)
@@ -49,22 +98,22 @@ script = ExtResource("1_1r4le")
 obstacles = Array[PackedScene]([ExtResource("2_fwxkx"), ExtResource("3_qmv3x")])
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_qmv3x")
+environment = SubResource("Environment_kul4i")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+transform = Transform3D(-0.8660254, -0.4983895, 0.040099468, 0, 0.08019893, 0.9967789, -0.50000006, 0.86323583, -0.069454305, 0, 0, 0)
 shadow_enabled = true
 
 [node name="Lava" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -10, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.010684967, -9.98185, -0.0007662773)
 mesh = SubResource("PlaneMesh_1r4le")
 surface_material_override/0 = SubResource("ShaderMaterial_7raqb")
 
 [node name="LavaKillZone" type="Area3D" parent="."]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="LavaKillZone"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -10, 0)
-shape = SubResource("ConcavePolygonShape3D_7raqb")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -6.6208982, 0)
+shape = SubResource("BoxShape3D_kul4i")
 
 [node name="Ground" type="MeshInstance3D" parent="."]
 material_override = SubResource("StandardMaterial3D_7raqb")
@@ -74,7 +123,7 @@ mesh = SubResource("BoxMesh_fwxkx")
 transform = Transform3D(-4.222196e-08, -0.25881904, 0.9659258, -1.131334e-08, 0.9659258, 0.25881904, -1, 0, -4.371139e-08, 10, 3.7643976, 0.99531555)
 
 [node name="Player" parent="." instance=ExtResource("4_jcm6v")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.016292, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.050464, 0)
 JUMP_VELOCITY = 12.0
 gravity_down = 5
 gravity_up = 5
@@ -88,8 +137,116 @@ shape = SubResource("ConcavePolygonShape3D_jcm6v")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.43248177, -16.158762)
 
 [node name="Spawner" type="Timer" parent="."]
-wait_time = 0.5
-autostart = true
+
+[node name="Enviorment" type="Node3D" parent="."]
+
+[node name="Root Scene8" parent="Enviorment" instance=ExtResource("8_buohc")]
+transform = Transform3D(-93.890656, -906.1195, -412.47083, -581.34863, -286.43298, 761.5706, -808.2192, 311.29376, -499.8781, -238.5112, -68.618095, 205.05421)
+
+[node name="Root Scene9" parent="Enviorment" instance=ExtResource("8_buohc")]
+transform = Transform3D(-821.164, 265.2376, -505.31067, -56.841427, -919.04407, -390.03497, -567.8543, -291.56006, 769.7623, -204.24377, -97.15192, -190.51332)
+
+[node name="RoundTimer" type="Timer" parent="."]
+wait_time = 0.1
+
+[node name="UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="background" type="ColorRect" parent="UI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.34901962)
+
+[node name="start_prompt" type="Label" parent="UI"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("9_kul4i")
+theme_override_font_sizes/font_size = 50
+text = "Press [Enter] to play"
+
+[node name="MarginContainer2" type="MarginContainer" parent="UI"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 40.0
+grow_horizontal = 2
+theme_override_constants/margin_top = 30
+
+[node name="Highscore" type="Label" parent="UI/MarginContainer2"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("9_kul4i")
+theme_override_font_sizes/font_size = 30
+text = "Highscore = 0"
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+visible = false
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -53.0
+offset_bottom = 67.0
+grow_horizontal = 0
+mouse_filter = 2
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 30
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="score" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("9_kul4i")
+theme_override_font_sizes/font_size = 30
+text = "0"
+
+[node name="highscore2" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("9_kul4i")
+theme_override_font_sizes/font_size = 20
+text = "0"
+
+[node name="Jail" type="Node3D" parent="."]
+
+[node name="CSGCombiner3D" type="CSGCombiner3D" parent="Jail"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 20, 22)
+use_collision = true
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Jail/CSGCombiner3D"]
+size = Vector3(10, 10, 10)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Jail/CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.56324, 0)
+operation = 2
+size = Vector3(4, 5, 4)
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("10_7gi1t")
+volume_db = -40.0
+autoplay = true
 
 [connection signal="body_entered" from="LavaKillZone" to="." method="_on_lava_kill_zone_body_entered"]
 [connection signal="timeout" from="Spawner" to="." method="_on_spawner_timeout"]
+[connection signal="timeout" from="RoundTimer" to="." method="_on_round_timer_timeout"]
